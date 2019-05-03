@@ -6,6 +6,9 @@ const morgan = require('morgan');
 require('dotenv').config();
 
 //import routes
+const projectRoute = require('./routes/projectRoute');
+const actionRoute = require('./routes/actionRoute');
+const contextRoute = require('./routes/contextRoute');
 
 
 //define server
@@ -16,7 +19,9 @@ server.use(helmet());
 server.use(morgan('dev'));
 
 //run routes
-
+server.use('/api/project', projectRoute);
+server.use('/api/action', actionRoute);
+server.use('/api/context', contextRoute);
 
 //export
 module.exports = server;
