@@ -126,14 +126,21 @@ router.delete('/:id', (req, res) => {
   const ID = req.params.id
   
   actions
-  .remove(ID)
-  .then( action => {
-    if(action === undefined) {
-      return missingError(res);
-    }
-    else {
-      return res.status(202).json({ action });
-    }
+  .getById(ID)
+  .then( target => {
+    actions
+    .remove(ID)
+    .then( action => {
+      if(action === undefined) {
+        return missingError(res);
+      }
+      else {
+        return res.status(202).json({ target });
+      }
+    })
+    .catch( err => {
+      return sendError( err, res );
+    })
   })
   .catch( err => {
     return sendError( err, res );

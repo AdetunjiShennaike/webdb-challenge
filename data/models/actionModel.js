@@ -43,9 +43,7 @@ function remove(id) {
   return db('actions')
   .where('id', id)
   .del()
-  .then( ids => {
-    return getById(ids[0]);//returns the whole object
-  })
+  
 }
 
 function getContexts(id) {

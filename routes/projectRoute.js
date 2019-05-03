@@ -62,6 +62,7 @@ router.get('/:id/actions', (req, res) => {
   .getActions(ID)
   .then( project => {
     if(project === undefined) {
+      console.log('test',project)
       return missingError(res);
     }
     else {
@@ -125,15 +126,23 @@ router.delete('/:id', (req, res) => {
   //set ID
   const ID = req.params.id
   
+ 
   projects
-  .remove(ID)
-  .then( project => {
-    if(project === undefined) {
-      return missingError(res);
-    }
-    else {
-      return res.status(202).json({ project });
-    }
+  .getById(ID)
+  .then( target => {
+    projects
+    .remove(ID)
+    .then( project => {
+      if(project === undefined) {
+        return missingError(res);
+      }
+      else {
+        return res.status(202).json({ target });
+      }
+    })
+    .catch( err => {
+      return sendError( err, res );
+    })
   })
   .catch( err => {
     return sendError( err, res );

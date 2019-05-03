@@ -43,13 +43,34 @@ function remove(id) {
   return db('projects')
   .where('id', id)
   .del()
-  .then( ids => {
-    return getById(ids[0]);//returns the whole object
-  })
+  
 }
 
 function getActions(id) {
+  let project = db('projects')
+
+  if (id) {
+    project.where('id', id).first();
+    
+    const data = [project, findActions(id)]
+
+    // .then( next => {
+    //   console.log(next)
+    //   db('actions')
+    //   .where('project_id', id)
+    //   .then( actions => {
+    //     console.log(actions)
+    //     return {next, actions}
+    //   });
+    // })
+
+    return Promise.all(data)
+  }
+
+}
+
+function findActions(id) {
   return db('actions')
-  .where('dish_id', id)
-  .then( recipes => recipes.map(recipe => { return {...recipe}}))
+  .where('project_id', id)
+  .then( actions => actions.map(action => { return {...action}}))
 }
