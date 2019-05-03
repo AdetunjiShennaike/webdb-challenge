@@ -8,22 +8,22 @@ module.exports = {
   insert,
   update,
   remove,
-  getActions,
+  getContexts
 }
 
-//setup SQL functions
+//setup SQL Functions
 function get() {
-  return db('projects');
+  return db('actions');
 }
 
 function getById(id) {
- return db('projects')
+ return db('actions')
  .where('id', id)
  .first()
 }
 
 function insert(dish) {
-  return db('projects')
+  return db('actions')
   .insert( dish )
   .then( ids => {
     return getById(ids[0]);//returns the whole object
@@ -31,7 +31,7 @@ function insert(dish) {
 }
 
 function update(id, change) {
-  return db('projects')
+  return db('actions')
   .where({ id })
   .update( change )
   .then( ids => {
@@ -40,7 +40,7 @@ function update(id, change) {
 }
 
 function remove(id) {
-  return db('projects')
+  return db('actions')
   .where('id', id)
   .del()
   .then( ids => {
@@ -48,8 +48,12 @@ function remove(id) {
   })
 }
 
-function getRecipies(id) {
-  return db('actions')
-  .where('dish_id', id)
-  .then( recipes => recipes.map(recipe => { return {...recipe}}))
+function getContexts(id) {
+  return db('action_context')
+  .select('action_context.id', 'actionName', 'completed', 'contextName' )
+  .join('actions', {'actions.id': 'action_id'})
+  .join('contexts', {'contexts.id': 'context_id'})
+  .where('action_id', id)
+  .orderBy('context_id')
+  .then( contexts => contexts.map(context => { return {...context}}))
 }

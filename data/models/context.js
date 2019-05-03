@@ -8,22 +8,21 @@ module.exports = {
   insert,
   update,
   remove,
-  getActions,
 }
 
-//setup SQL functions
+//setup SQL Functions
 function get() {
-  return db('projects');
+  return db('contexts');
 }
 
 function getById(id) {
- return db('projects')
+ return db('contexts')
  .where('id', id)
  .first()
 }
 
 function insert(dish) {
-  return db('projects')
+  return db('contexts')
   .insert( dish )
   .then( ids => {
     return getById(ids[0]);//returns the whole object
@@ -31,7 +30,7 @@ function insert(dish) {
 }
 
 function update(id, change) {
-  return db('projects')
+  return db('contexts')
   .where({ id })
   .update( change )
   .then( ids => {
@@ -40,16 +39,10 @@ function update(id, change) {
 }
 
 function remove(id) {
-  return db('projects')
+  return db('contexts')
   .where('id', id)
   .del()
   .then( ids => {
     return getById(ids[0]);//returns the whole object
   })
-}
-
-function getRecipies(id) {
-  return db('actions')
-  .where('dish_id', id)
-  .then( recipes => recipes.map(recipe => { return {...recipe}}))
 }
