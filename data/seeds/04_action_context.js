@@ -1,13 +1,13 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('action_context').truncate()
     .then(function () {
       // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
+      return knex('action_context').insert([
+        { actionId: 1, contextId: 1, completed: false },
+        { actionId: 1, contextId: 1, completed: false },
+        { actionId: 1, contextId: 1, completed: false }
       ]);
     });
 };
